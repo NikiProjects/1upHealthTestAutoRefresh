@@ -1,0 +1,3 @@
+- Location on C drive: C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh
+- Runs on Tomcat 7 Server
+- For demo, run the file oneUpHealthResourceParser.jsp
