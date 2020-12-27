@@ -22,6 +22,8 @@
 //localStorage.clear();
 
 var total = 0;
+var patientFullCollectionFhirRes = [];
+
 
 class PatientDataForm extends React.Component {
 
@@ -60,7 +62,7 @@ var block2Completed = false;
 var allFhirResTypeArr = [];
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything";
-var bearer = 'Bearer 9e857688f012249ac04c3961d853039117d8908f' ;
+var bearer = 'Bearer a18ed061ad9b910fb68c5c4dfb46f09b07d7b49d' ;
 var initialPromise1 = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -100,13 +102,9 @@ console.log("Inside do while loop");
 timeoutFunc();
 //setTimeout(function(){ console.log("invoked setTimout # 2"); }, 2000);
 
-submittedRequestCounter++;
-pageNumber = pageNumber + 10;  
-
-
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything?_skip=" + pageNumber;
 console.log("request url: " + requesturl);
-var bearer = 'Bearer 9e857688f012249ac04c3961d853039117d8908f' ;
+var bearer = 'Bearer a18ed061ad9b910fb68c5c4dfb46f09b07d7b49d' ;
 var firstPromise = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -117,6 +115,9 @@ var firstPromise = fetch(requesturl, {
 
 
 promiseArr.push(firstPromise);
+
+pageNumber = pageNumber + 10; 
+submittedRequestCounter++;
 
 }
 while(submittedRequestCounter < totalNumOfPagesRounded); 
@@ -136,11 +137,33 @@ console.log("Finished executing 2nd block");
 if(block2Completed === true){
 Promise.all(promiseArr).then(
 promiseArray => {
+var promiseArrLength = promiseArray.length;
+
+
+/*
 //test = setInterval(function(){ process(promiseArrayElement.json()); }, 3000);
 promiseArray.forEach(promiseArrayElement=>{
 //setTimeout(function(){ console.log("pausing do/while loop for 10 sec ......"); }, 3000);
 //process(promiseArrayElement.json());
-newprocess(promiseArrayElement.json());
+newprocess(promiseArrayElement.json(),);
+//processArray(patientFullCollectionFhirRes);
+}); // end of for each
+
+*/
+
+
+
+promiseArray.forEach(promiseArrayElement=>{
+var indexOfElement = promiseArray.indexOf(promiseArrayElement);
+var isLastIndex = false;
+if(indexOfElement == promiseArrLength - 1){
+
+isLastIndex = true;
+
+}
+
+newprocess(promiseArrayElement.json(), isLastIndex);
+
 }); // end of for each
 
 
@@ -203,6 +226,8 @@ render() {
       </form>
 	<br/>
 	<div id="containerTotalNumOfRes"></div>
+	<div id="container1"></div>
+
 	<br/>
 </div>
 );
@@ -219,7 +244,7 @@ ReactDOM.render(<PatientDataForm/>,document.getElementById("rootContainer"));
 
 
 
-let newprocess = (prom1) =>{
+let newprocess = (prom1,isLastProm) =>{
 prom1.then(
 function(data) {
 console.log('all is complted', data);
@@ -232,6 +257,8 @@ var entryElementResourceType;
 
 if(data)
 {
+
+console.log("isLastProm: " + isLastProm);
 
 var linkArr = data.link;
 
@@ -257,6 +284,7 @@ var entryElementResource = entryArr[entryArrCounter].resource;
 
 if(entryElementResource){
 entryElementResourceType = entryElementResource.resourceType;
+patientFullCollectionFhirRes.push(entryElementResourceType);
 }
 
 console.log("resourceType: " + entryElementResourceType + " page url: " + pageUrl + " lengthOfEntryArr: " + lengthOfEntryArr);
@@ -266,20 +294,45 @@ console.log("resourceType: " + entryElementResourceType + " page url: " + pageUr
 
 
 
-console.log("My total: " + total);
+console.log("My total FHR resources: " + total);
 
-//var resource = data.resource;
-//var resourceType = resource.resourceType;
+if(isLastProm){
+processArray(patientFullCollectionFhirRes);
+
+}
 
 
 }
 
 });
+
+
+
 }
+
+
+
+function processArray(collection){
+console.log("Length of array w/ all FHIR res" + collection.length);
+var uniqueResArr = collection.filter((v, i, a) => a.indexOf(v) === i);
+console.log("UniqueArr length " + uniqueResArr.length);
+
+var uniqueResArrIterator; 
+for(uniqueResArrIterator = 0; uniqueResArrIterator < uniqueResArr.length; uniqueResArrIterator++){
+var uniqueRes = uniqueResArr[uniqueResArrIterator];
+console.log("uniqueElement2: " + uniqueRes.toString());
+
+}
+
+countNumberOfUniqueRes(uniqueResArr, collection);
+
+
+}
+
 
 function timeoutFunc(){
 var i = 0;
-  while (i < 50000) {
+  while (i < 80000) {
     (function(i) {
       setTimeout(function() {
 		
@@ -289,7 +342,68 @@ var i = 0;
 console.log("finished settimeout");
 }
 
+function countNumberOfUniqueRes(uniqueResCollection, completeResCollection){
 
+var allPatientResIterator; // checked
+var uniqueResArrIterator; // checked
+var resTypeCounter; // checked
+var uniqueRes; // checked
+var resSummary; // checked
+var resSummaryArr = []; // checked
+
+for(uniqueResArrIterator = 0; uniqueResArrIterator < uniqueResCollection.length; uniqueResArrIterator++){
+uniqueRes = uniqueResCollection[uniqueResArrIterator];
+if(uniqueRes){
+resTypeCounter = 0;
+
+
+console.log("Comparing unique item: " + uniqueRes);	
+	for (allPatientResIterator = 0; allPatientResIterator < completeResCollection.length; allPatientResIterator++) {
+		var completeResCollectionElement = completeResCollection[allPatientResIterator];
+		if(uniqueRes === completeResCollectionElement)
+			{
+				resTypeCounter++;
+			}
+
+	} // end of for loop
+
+resSummary = uniqueRes + "_" + resTypeCounter;
+resSummaryArr.push(resSummary);
+
+}
+}   // end of outer for loop
+
+console.log(resSummaryArr.toString());
+
+sendReqToNodeJsServer(resSummaryArr);
+}
+
+
+function sendReqToNodeJsServer(patientResTypeData){
+
+var urlWritePatientRes = "http://localhost:8082/writePatientResType/?values="+ patientResTypeData;
+
+var promiseFromNodeJsServer = fetch(urlWritePatientRes,{
+        method: 'GET',
+				headers: {
+            'Content-Type': 'application/json'
+        }
+		}).then((resnodejs) =>{
+//document.body.innerHTML = "Finished processing request.";
+//document.getElementById("container1").innerHTML = "completed processing req.";
+if(resnodejs){
+console.log("completed processing req");
+}
+else{
+console.log("problem processing req");
+}
+});
+		
+
+
+
+
+}
 </script>
 
 </body>
