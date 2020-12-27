@@ -37,6 +37,7 @@ constructor(props) {
     this.handleSubmit = this.handleSubmit.bind(this);
  	this.capture1UpHealthApiResponse = this.capture1UpHealthApiResponse.bind(this);
 //	this.timeoutFunc = this.timeoutFunc.bind(this);
+//	this.newprocess = this.newprocess.bind(this);
 	
 
 
@@ -242,8 +243,6 @@ ReactDOM.render(<PatientDataForm/>,document.getElementById("rootContainer"));
 
 
 
-
-
 let newprocess = (prom1,isLastProm) =>{
 prom1.then(
 function(data) {
@@ -309,6 +308,8 @@ processArray(patientFullCollectionFhirRes);
 
 
 }
+
+
 
 
 
@@ -390,9 +391,10 @@ var promiseFromNodeJsServer = fetch(urlWritePatientRes,{
         }
 		}).then((resnodejs) =>{
 //document.body.innerHTML = "Finished processing request.";
-//document.getElementById("container1").innerHTML = "completed processing req.";
+document.getElementById("container1").innerHTML = "completed processing req.";
 if(resnodejs){
 console.log("completed processing req");
+//document.write("Hello World!");
 }
 else{
 console.log("problem processing req");
