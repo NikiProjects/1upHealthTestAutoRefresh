@@ -63,7 +63,7 @@ var block2Completed = false;
 var allFhirResTypeArr = [];
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything";
-var bearer = 'Bearer c96234c7bb10bdc238dd4bc8d4df64408ec1c750' ;
+var bearer = 'Bearer 7f5ce0a0d22d27f8a1396f0ff5b24c09ca9f7617' ;
 var initialPromise1 = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -105,7 +105,7 @@ timeoutFunc();
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything?_skip=" + pageNumber;
 console.log("request url: " + requesturl);
-var bearer = 'Bearer c96234c7bb10bdc238dd4bc8d4df64408ec1c750' ;
+var bearer = 'Bearer 7f5ce0a0d22d27f8a1396f0ff5b24c09ca9f7617' ;
 var firstPromise = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -205,6 +205,7 @@ handleSubmit(event) {
 console.log("Patient Id received in handleSubmit function: " + patientId);
 
 console.log("Contacting 1upHealth API...");
+document.getElementById("container1").innerHTML = "Script is running. Please wait on this page... You will be notified when script finishes.";
 this.capture1UpHealthApiResponse(patientId);
 
 
