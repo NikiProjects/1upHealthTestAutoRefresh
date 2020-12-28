@@ -42,6 +42,5 @@ added 2 packages from 2 contributors and audited 90 packages in 9.138s
 found 0 vulnerabilities
 
 
-C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh>
+- Specify here which file, we need to run on Tomcat 7 Server. 
 
-C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh>

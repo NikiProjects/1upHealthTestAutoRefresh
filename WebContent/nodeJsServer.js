@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
+const fs = require('fs');
+
 
 var app = express();
 
@@ -23,6 +25,34 @@ app.get('/writePatientResType', function (req, res) {
 	
 */
 
+	
+
+	var resSummaryArr = req.query.values;
+	console.log("resource summary array: " + resSummaryArr);
+	
+	var idOfPatient = req.query.id;
+	console.log("id of patient: " + idOfPatient);
+	
+	var dateAndTs = new Date();
+	console.log("date: " + dateAndTs);
+	
+	var resSummaryArrAsStr;
+	if(resSummaryArr.length === 0){
+		resSummaryArrAsStr = "No resources found for this patient";
+		
+	}
+	
+	resSummaryArrAsStr = resSummaryArr.toString();
+	var concatonatedStr = "\n \n \n RESOURCE SUMMARY FOR PATIENT ID: " + idOfPatient + " CREATED ON: " + dateAndTs + "\n" + resSummaryArrAsStr; 
+
+
+	fs.appendFile('resourceSummary.txt',concatonatedStr, function (err) {
+		  if (err) return console.log(err);
+		  console.log('finished writing patient resources to file');
+		  
+		});
+	
+	
 	res.send('completed');	
 
 
