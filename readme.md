@@ -1,8 +1,28 @@
-- Location on C drive: C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh
-- Runs on Tomcat 7 Server
-- For demo, run the file oneUpHealthResourceParser.jsp
+- Location of project on C drive: C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh
 
-Dependencies: 
+About this project: 
+
+
+How to run this project: 
+The project runs on Tomcat 7 Server. Specifically, 
+
+- Specify here which file, we need to run on Tomcat 7 Server. Specifically we need to run the file oneUpHealthResourceParser.jsp on Tomcat 7 Server. 
+
+- Running the oneUpHealthResourceParser.jsp file on Tomcat 7 Server will present a form to the user in which the user will enter the patient id. 
+
+- Based on the patient id, the 1upHealth $everything API will be invoked. This program logic will parse thru the 
+json response for a given patient, to collect the resource types associated with this patient. The program logic 
+identifies the unique resources associated with a given patient and calculates a count for each unique resource. This information is sent to the NodeJS Server, and the NodeJS Server outputs this information to a file located on the file system. 
+
+How to use the NodeJS Server: 
+To start the NodeJS Server, navigate into file path C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh\WebContent> and then run the command 'node nodeJsServer.js' from the command prompt. In this specified command the file nodeJsServer.js can be found in the WebContent directory. 
+Please note that:
+- the NodeJS Server runs on port 8082. 
+- the Tomcat 7 Server runs on port 8081. 
+- this implementation has been tested on Windows machine. 
+
+
+Dependencies used our implemented and customized NodeJS Server: 
 1) C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh>npm install express --save
 npm WARN saveError ENOENT: no such file or directory, open 'C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh\package.json'
 npm notice created a lockfile as package-lock.json. You should commit this file.
@@ -28,7 +48,7 @@ npm WARN TestAutoRefresh No license field.
 updated 1 package and audited 88 packages in 1.244s
 found 0 vulnerabilities
 
-
+The following dependency is needed for cross server communication.
 3) C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh>npm install cors --save
 npm WARN saveError ENOENT: no such file or directory, open 'C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh\package.json'
 npm WARN enoent ENOENT: no such file or directory, open 'C:\Users\Nikita\Nex-G-wkspace\TestAutoRefresh\package.json'
@@ -42,5 +62,6 @@ added 2 packages from 2 contributors and audited 90 packages in 9.138s
 found 0 vulnerabilities
 
 
-- Specify here which file, we need to run on Tomcat 7 Server. 
+
+ 
 
