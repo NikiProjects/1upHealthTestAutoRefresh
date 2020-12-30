@@ -63,7 +63,7 @@ var block2Completed = false;
 var allFhirResTypeArr = [];
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything";
-var bearer = 'Bearer 935076a612115bf871c7122a3e3582f9ef8ebb9f' ;
+var bearer = 'Bearer 7f5ce0a0d22d27f8a1396f0ff5b24c09ca9f7617' ;
 var initialPromise1 = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -82,26 +82,30 @@ totalNumOfFhirRes = this.state.responselements.total;
 var totalNumOfPages = totalNumOfFhirRes/10;
 
 totalNumOfPagesRounded = Math.ceil(totalNumOfPages);
-
+console.log("roundedNum " + totalNumOfPagesRounded);
 
 block1Completed = true;
-
+console.log("finished executing 1st block " + block1Completed);
 }
 
 );
+
+
 
 var interval = setInterval(function(){ 
 console.log("Executing setInterval body");
 if(block1Completed === true)
 {
 
+console.log("Executing 2nd block");
 do{
+console.log("Inside do while loop");
 timeoutFunc();
 //setTimeout(function(){ console.log("invoked setTimout # 2"); }, 2000);
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything?_skip=" + pageNumber;
 console.log("request url: " + requesturl);
-var bearer = 'Bearer 935076a612115bf871c7122a3e3582f9ef8ebb9f' ;
+var bearer = 'Bearer 7f5ce0a0d22d27f8a1396f0ff5b24c09ca9f7617' ;
 var firstPromise = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -128,6 +132,8 @@ console.log("promise arr length: " + promiseArr.length);
 block2Completed = true;
 
 }
+console.log("Finished executing 2nd block");
+
 
 if(block2Completed === true){
 Promise.all(promiseArr).then(
@@ -173,6 +179,12 @@ newprocess(promiseArrayElement.json(), isLastIndex, patientId);
 
 
 }, 3000);
+
+console.log("Exited from setInterval function");
+
+
+
+
 
 
 // this.setState({responselements:data});
@@ -235,7 +247,7 @@ ReactDOM.render(<PatientDataForm/>,document.getElementById("rootContainer"));
 let newprocess = (prom1,isLastProm,patientId) =>{
 prom1.then(
 function(data) {
-console.log('data within this promise object', data);
+console.log('all is complted', data);
 var entryArr;
 var lengthOfEntryArr;
 var entryArrCounter;
@@ -246,7 +258,7 @@ var entryElementResourceType;
 if(data)
 {
 
-console.log("isLastProm in array: " + isLastProm);
+console.log("isLastProm: " + isLastProm);
 
 var linkArr = data.link;
 
@@ -282,7 +294,7 @@ console.log("resourceType: " + entryElementResourceType + " page url: " + pageUr
 
 
 
-console.log("Total # FHIR res in newly created array: " + total);
+console.log("My total FHR resources: " + total);
 
 if(isLastProm){
 processArray(patientFullCollectionFhirRes,patientId);
@@ -303,11 +315,14 @@ processArray(patientFullCollectionFhirRes,patientId);
 
 
 function processArray(collection,patientId){
+console.log("Length of array w/ all FHIR res" + collection.length);
 var uniqueResArr = collection.filter((v, i, a) => a.indexOf(v) === i);
+console.log("UniqueArr length " + uniqueResArr.length);
+
 var uniqueResArrIterator; 
 for(uniqueResArrIterator = 0; uniqueResArrIterator < uniqueResArr.length; uniqueResArrIterator++){
 var uniqueRes = uniqueResArr[uniqueResArrIterator];
-console.log("unique FHIR res: " + uniqueRes.toString());
+console.log("uniqueElement2: " + uniqueRes.toString());
 
 }
 
@@ -343,6 +358,8 @@ uniqueRes = uniqueResCollection[uniqueResArrIterator];
 if(uniqueRes){
 resTypeCounter = 0;
 
+
+console.log("Comparing unique item: " + uniqueRes);	
 	for (allPatientResIterator = 0; allPatientResIterator < completeResCollection.length; allPatientResIterator++) {
 		var completeResCollectionElement = completeResCollection[allPatientResIterator];
 		if(uniqueRes === completeResCollectionElement)
@@ -378,14 +395,18 @@ var promiseFromNodeJsServer = fetch(urlWritePatientRes,{
 //document.body.innerHTML = "Finished processing request.";
 document.getElementById("container1").innerHTML = "Successfully wrote to file resourceSummary.txt a current summary of this patient's resources";
 if(resnodejs){
-console.log("completed analysis for this patient id");
+console.log("completed processing req");
 //document.write("Hello World!");
 }
 else{
-console.log("problem performing analysis for this patient id");
+console.log("problem processing req");
 }
 });
 		
+
+
+
+
 }
 </script>
 

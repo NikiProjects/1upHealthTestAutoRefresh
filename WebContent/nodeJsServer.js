@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 app.get('/writePatientResType', function (req, res) {
-	console.log("invoked new Node JS Server");
+	console.log("Node JS Server GET API invoked");
 	
 /*
 	res.write('<html>');
@@ -34,7 +34,6 @@ app.get('/writePatientResType', function (req, res) {
 	console.log("id of patient: " + idOfPatient);
 	
 	var dateAndTs = new Date();
-	console.log("date: " + dateAndTs);
 	
 	var resSummaryArrAsStr;
 	if(resSummaryArr.length === 0){

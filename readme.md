@@ -61,7 +61,9 @@ npm WARN TestAutoRefresh No license field.
 added 2 packages from 2 contributors and audited 90 packages in 9.138s
 found 0 vulnerabilities
 
-
+Tested with the following patient id's: 
+- e467f71f186f
+- 2fbbf941fb26
 
  
 
