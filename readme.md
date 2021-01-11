@@ -6,11 +6,11 @@ About this project:
 How to run this project: 
 The project runs on Tomcat 7 Server. Specifically, 
 
-- Specify here which file, we need to run on Tomcat 7 Server. Specifically we need to run the file oneUpHealthResourceParser.jsp on Tomcat 7 Server. 
+- Specifically we need to run the file oneUpHealthResourceParser.jsp on Tomcat 7 Server. 
 
 - Running the oneUpHealthResourceParser.jsp file on Tomcat 7 Server will present a form to the user in which the user will enter the patient id. 
 
-- Based on the patient id, the 1upHealth $everything API will be invoked. This program logic will parse thru the 
+- Based on the user inputted patient id, the 1upHealth $everything API will be invoked. This program logic will parse thru the 
 json response for a given patient, to collect the resource types associated with this patient. The program logic 
 identifies the unique resources associated with a given patient and calculates a count for each unique resource. This information is sent to the NodeJS Server, and the NodeJS Server outputs this information to a file located on the file system. 
 
