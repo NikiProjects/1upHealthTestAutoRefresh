@@ -50,7 +50,6 @@ handleChange(event) {
 
 
 
-
 capture1UpHealthApiResponse(patientId){
 var promiseArr = [];
 var submittedRequestCounter = 0; 
@@ -63,7 +62,7 @@ var block2Completed = false;
 var allFhirResTypeArr = [];
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything";
-var bearer = 'Bearer 935076a612115bf871c7122a3e3582f9ef8ebb9f' ;
+var bearer = 'Bearer c2b501249b87c926a1a253a226f27871528e4097' ;
 var initialPromise1 = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -101,7 +100,7 @@ timeoutFunc();
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything?_skip=" + pageNumber;
 console.log("request url: " + requesturl);
-var bearer = 'Bearer 935076a612115bf871c7122a3e3582f9ef8ebb9f' ;
+var bearer = 'Bearer c2b501249b87c926a1a253a226f27871528e4097' ;
 var firstPromise = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -204,6 +203,7 @@ console.log("Finished executing click of onSubmit function");
 
 
 render() {
+
 //localStorage.clear();
     return (
 	<div>
@@ -319,14 +319,14 @@ countNumberOfUniqueRes(uniqueResArr, collection,patientId);
 
 function timeoutFunc(){
 var i = 0;
-  while (i < 80000) {
+  while (i < 60000) {
     (function(i) {
       setTimeout(function() {
 		
-      }, 1000 * i)
+      }, 5000)
     })(i++)
   }
-console.log("finished settimeout");
+console.log("finished timeoutFunc");
 }
 
 function countNumberOfUniqueRes(uniqueResCollection, completeResCollection,patientId){
@@ -336,7 +336,7 @@ var uniqueResArrIterator; // checked
 var resTypeCounter; // checked
 var uniqueRes; // checked
 var resSummary; // checked
-var resSummaryArr = []; // checked
+var resSummaryArr = []; // checkedd
 
 for(uniqueResArrIterator = 0; uniqueResArrIterator < uniqueResCollection.length; uniqueResArrIterator++){
 uniqueRes = uniqueResCollection[uniqueResArrIterator];
