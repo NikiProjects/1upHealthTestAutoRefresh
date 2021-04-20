@@ -10,13 +10,6 @@ var newprocessCounter = 0;
 
 
 
-
-
-
-
-
-
-
 function capture1UpHealthApiResponse(patientId){
 var state;
 //patientId = "efcfce77bd6e";
@@ -24,15 +17,13 @@ var promiseArr = [];
 var submittedRequestCounter = 0; 
 var totalNumOfFhirRes = 0;
 var pageNumber = 0;
-//var pageNumber = 250;
 var totalNumOfPagesRounded;
 var block1Completed = false;
 var block2Completed = false;
-var allFhirResTypeArr = [];
 var copyArr = [];
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything";
-var bearer = 'Bearer cda1c6182679152d60e45c721147688a86a9fed8';
+var bearer = 'Bearer fdc1d67224659e44b46d813c9149612ea6057f57';
 var initialPromise1 = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -45,11 +36,11 @@ var initialPromise1 = fetch(requesturl, {
 var initialPromise2 = initialPromise1.then((response) => response.json());
 
 var initialPromise3 = initialPromise2.then(data => {
-//this.setState({responselements:data});
+
 state = data;
 //console.log("debug state: " + state);
 totalNumOfFhirRes = state.total;
-//console.log("syntax change: " + totalNumOfFhirRes);
+
 
 var totalNumOfPages = totalNumOfFhirRes/10;
 
@@ -69,11 +60,11 @@ if(block1Completed === true)
 
 do{
 timeoutFunc();
-//setTimeout(function(){ console.log("invoked setTimout # 2"); }, 2000);
+
 
 var requesturl = "https://api.1up.health/fhir/dstu2/Patient/" + patientId + "/$everything?_skip=" + pageNumber;
 console.log("request url: " + requesturl);
-var bearer = 'Bearer cda1c6182679152d60e45c721147688a86a9fed8';
+var bearer = 'Bearer fdc1d67224659e44b46d813c9149612ea6057f57';
 var firstPromise = fetch(requesturl, {
         method: 'GET',
         headers: {
@@ -83,7 +74,7 @@ var firstPromise = fetch(requesturl, {
     });
 
 
-timeoutFunc();
+//removed timeoutFunc();
 promiseArr.push(firstPromise);
 
 pageNumber = pageNumber + 10; 
@@ -91,7 +82,7 @@ submittedRequestCounter++;
 
 }
 while(submittedRequestCounter < totalNumOfPagesRounded); 
-//while(submittedRequestCounter < 15); 
+ 
 
 clearInterval(interval); 
 
@@ -107,20 +98,14 @@ Promise.all(promiseArr).then(
 (promiseArray) => {
 
 var promiseArrLength = promiseArray.length;
-console.log("debug length: " + promiseArrLength);
 
 
-timeoutFunc();
 
-
-for (var mycount=0; mycount < promiseArrLength; mycount++)
-{ 
-    copyArr[mycount]= promiseArray[mycount];
-}
+// removed timeoutFunc();
 
 
 promiseArray.forEach(promiseArrayElement=>{
-timeoutFunc();
+// removed timeoutFunc();
 
 promiseArrayElement.json().then(
 function(data) {
@@ -129,54 +114,35 @@ newprocess(data, patientId, totalNumOfPagesRounded);
 
 );
 
-//newprocess(promiseArrayElement.json(), isLastIndex, patientId, totalNumOfPagesRounded);
 
 
-
-}); // end of for each
+}); 
 
 
 
 
-}//end of inner code block
+}
 
 
 ).catch((error) => {
-    console.log("hello Promise rejected", error);
+    console.log("Promise rejected catch block", error);
 });
 
-} // end of if
+} 
 
 
 }, 3000);
 
 
-// this.setState({responselements:data});
 
-
-} // end of my main method
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} 
 
 
 
 
 function newprocess(data,patientId,totalNumOfPgInRes){
 newprocessCounter++;
-timeoutFunc();
+// removed timeoutFunc();
 
 
 console.log('data within this promise object', data);
@@ -185,7 +151,7 @@ var lengthOfEntryArr;
 var entryArrCounter;
 var pageUrl;
 var entryElementResourceType;
-//var lastPageAsStr = lastPage.toString();
+
 
 if(data)
 {
@@ -218,46 +184,27 @@ entryElementResourceType = entryElementResource.resourceType;
 patientFullCollectionFhirRes.push(entryElementResourceType);
 //}
 
-console.log("resourceType: " + entryElementResourceType + " page url: " + pageUrl + " lengthOfEntryArr: " + lengthOfEntryArr);
+//console.log("resourceType: " + entryElementResourceType + " page url: " + pageUrl + " lengthOfEntryArr: " + lengthOfEntryArr);
 
-} // end of entry array for loop
-}  // end analyze entry array
-
-
+} 
+}  
 
 console.log("Total # FHIR res in newly created array: " + total);
 
-timeoutFunc();
+// removed timeoutFunc();
 
 
 
-
-// if(pageUrl.includes((pgCounter.toString())) === false){
 if(totalNumOfPgInRes === newprocessCounter){
-console.log("totalPg: " + totalNumOfPgInRes);
+console.log("total pg in res: " + totalNumOfPgInRes);
 processArray(patientFullCollectionFhirRes,patientId);
 }
-
-
-
-
 
 
 
 //}
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -269,13 +216,11 @@ var uniqueResArr = collection.filter((v, i, a) => a.indexOf(v) === i);
 var uniqueResArrIterator; 
 for(uniqueResArrIterator = 0; uniqueResArrIterator < uniqueResArr.length; uniqueResArrIterator++){
 var uniqueRes = uniqueResArr[uniqueResArrIterator];
-console.log("debug iterator: " + uniqueResArrIterator);
 console.log("unique FHIR res: " + uniqueRes.toString());
 
 }
 
 countNumberOfUniqueRes(uniqueResArr, collection,patientId);
-
 
 }
 
@@ -285,7 +230,7 @@ function timeoutFunc(){
   let currentDate = null;
   do {
     currentDate = Date.now();
-  } while (currentDate - date < 4000);
+  } while (currentDate - date < 2000);
 }
 
 
@@ -353,4 +298,4 @@ console.log("problem performing analysis for this patient id");
 		
 }
 
-capture1UpHealthApiResponse("efcfce77bd6e");
+capture1UpHealthApiResponse("e467f71f186f");
